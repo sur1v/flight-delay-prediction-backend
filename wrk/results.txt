@@ -1,0 +1,10 @@
+$ wrk -t6 -c250 -d45s -s post.lua http://34.72.24.182/predict
+
+Running 45s test @ http://34.72.24.182/predict
+  6 threads and 250 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   113.75ms    4.65ms 201.79ms   94.67%
+    Req/Sec   183.22     73.04   400.00     63.67%
+  49286 requests in 45.10s, 15.51MB read
+Requests/sec:   1092.83
+Transfer/sec:    352.18KB
