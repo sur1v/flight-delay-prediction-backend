@@ -1,0 +1,33 @@
+kind: pipeline
+name: default
+
+steps:
+- name: publish
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: DHUB_USER
+    password:
+      from_secret: DHUB_PASS
+    repo: sur1v/flightapp
+    tags:
+    - ${DRONE_COMMIT}
+      
+  when:
+    branch: [ main ]
+    event: [ push ]
+
+- name: deploy
+  image: nytimes/drone-gke
+  environment:
+    TOKEN:
+      from_secret: GCLOUD_JSON
+  settings:
+    zone: us-central1
+    cluster: flightapp-367915-gke
+    expand_env_vars: true
+    vars:
+      image: sur1v/flightapp:${DRONE_COMMIT}
+  when:
+    branch: [ main ]
+    event: [ push ]
